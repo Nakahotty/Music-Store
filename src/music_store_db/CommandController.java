@@ -3,9 +3,9 @@ package music_store_db;
 import java.util.Scanner;
 
 public class CommandController {
-	private Scanner input;
+	private Scanner input; 
 	
-	public CommandController() {
+	CommandController() {
 		input = new Scanner(System.in);
 	}
 	
@@ -15,31 +15,28 @@ public class CommandController {
 
 		intro();
 		
-		boolean exit = true;
 		String choice = input.next();
-		do {
-			switch (choice) {
-			case "EXIT": {
-				exit = false; 
-				break;
-			}
-			case "SELECT": {
-				break; 
-			}
-			case "Insert": {
-				System.out.println(" --- INSERT YOUR DATA --- ");
-				System.out.println("WHAT DO YOU WANT TO INSERT?");
-				String insertChoice = input.next();
-				msConnection.insertExecution(stmnt, insertChoice);
-				break;
-			}
-			case "DELETE": {
-				break;
-			}
-			default:
-				throw new IllegalArgumentException("UNEXPECTED VALUE: " + choice);
-			}
-		} while (exit);
+		
+		if (choice.equalsIgnoreCase("EXIT")) {
+			System.out.println("Exiting from the application...");
+			input.close();
+		} else if (choice.equalsIgnoreCase("SELECT")) {
+			
+			
+		} else if (choice.equalsIgnoreCase("INSERT")) {
+			System.out.println(" --- INSERT YOUR DATA --- ");
+			System.out.println("WHAT DO YOU WANT TO INSERT?");
+			
+			String insertChoice = input.next();
+			msConnection.insertInto(stmnt, insertChoice);
+		} else if (choice.equalsIgnoreCase("DELETE")) {
+			
+		} else {
+			throw new IllegalArgumentException("UNEXPECTED VALUE: " + choice);
+		}
+		
+		
+		System.out.println("Thank you for using the Music Store application!");
 	}
 	
 	private void intro() {
