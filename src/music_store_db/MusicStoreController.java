@@ -3,7 +3,7 @@ package music_store_db;
 import java.sql.*;
 import java.util.Scanner;
 
-public class MusicStoreConnection {
+public class MusicStoreController {
 	private Connection connection;
 	private Statement statement;
 	private ResultSet resultSet;
@@ -68,27 +68,108 @@ public class MusicStoreConnection {
 	public void insert(String stmtnt) {
 		try {
 			statement.executeUpdate(stmtnt);
+			System.out.println("Successfully inserted!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Successfully inserted!");
 	}
 	
 	public void delete(String stmtnt) {
 		try {
 			statement.executeUpdate(stmtnt);
+			System.out.println("Successfully deleted!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Successfully deleted!");
 	}
 	
-	public void selectExecution(String stmnt) {
+	public void view(String stmtnt, int column) {
+		try {
+			resultSet = statement.executeQuery(stmtnt);
+			String result = "";
+			
+			while (resultSet.next()) {
+				for (int i = 1; i <= column; i++) {
+					result += resultSet.getString(i);
+					if (i == column)
+						result += " \n";
+					else 
+						result += "     ";
+				}
+			}
+			
+			System.out.println("Executing query: " + stmtnt + "\n");
+	        System.out.println("Result output \n");
+	        System.out.println("---------------------------------- \n");
+
+			System.out.println("STORE      AVAILABLE ITEM");
+	        System.out.println(result);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void viewExecution(String stmtnt, String choice) {
 		openConnection();
-		stmnt = "SELECT TYPE FROM FN71937.ITEMSINSTRUMENTS";
-		this.select(stmnt, 1); 
+		
+		stmtnt = "SELECT * FROM FN71937.V_AVAILABLE_ITEMS";
+		
+		view(stmtnt, 2);
+	}
+	
+	public void selectExecution(String stmnt, String choice) {
+		openConnection();
+
+		// 
+		
+		select(stmnt, 1);
+	}
+	
+	public void deleteExecution(String stmnt, String model) {
+		openConnection();
+		char quote = '\'';
+		
+		// delete from child
+		char category = model.charAt(0);
+		deleteByCategory(category, model);
+		
+		// delete from items (parent)
+		stmnt = "DELETE FROM FN71937.ITEMS WHERE MODEL=" + quote + model + quote;
+		delete(stmnt);
+	}
+	
+	private void deleteByCategory(char category, String model) {
+		char quote = '\'';
+		switch (category) {
+		case 'I': {
+			delete("DELETE FROM FN71937.ITEMSINSTRUMENTS WHERE MODEL=" + quote + model + quote);
+			break;
+		}
+		case 'V': {
+			delete("DELETE FROM FN71937.ITEMSVINYLSCDS WHERE MODEL=" + quote + model + quote);
+			break;
+		}
+		case 'R': {
+			delete("DELETE FROM FN71937.ITEMSRECORDPLAYERS WHERE MODEL=" + quote + model + quote);
+			break;
+		}
+		case 'H': {
+			delete("DELETE FROM FN71937.ITEMSHEADSETS WHERE MODEL=" + quote + model + quote);
+			break;
+		}
+		case 'M': {
+			delete("DELETE FROM FN71937.ITEMSMICROPHONES WHERE MODEL=" + quote + model + quote);
+			break;
+		}
+		case 'C': {
+			delete("DELETE FROM FN71937.ITEMSCONTROLLERS WHERE MODEL=" + quote + model + quote);
+			break;
+		}
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + category);
+		}
 	}
 	
 	public void insertInto(String stmnt, String choice) {

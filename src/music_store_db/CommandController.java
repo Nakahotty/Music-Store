@@ -10,7 +10,7 @@ public class CommandController {
 	}
 	
 	public void run() {
-		MusicStoreConnection msConnection = new MusicStoreConnection();
+		MusicStoreController msConnection = new MusicStoreController();
 		String stmnt = new String();
 
 		intro();
@@ -21,16 +21,32 @@ public class CommandController {
 			System.out.println("Exiting from the application...");
 			input.close();
 		} else if (choice.equalsIgnoreCase("SELECT")) {
+			System.out.println(" --- SELECT ----");
+			System.out.println(" WHAT DO YOU WANT TO SELECT?");
 			
-			
+			String deleteChoice = input.next();
+			msConnection.selectExecution(stmnt, deleteChoice);
 		} else if (choice.equalsIgnoreCase("INSERT")) {
 			System.out.println(" --- INSERT YOUR DATA --- ");
-			System.out.println("WHAT DO YOU WANT TO INSERT?");
+			System.out.println(" WHAT DO YOU WANT TO INSERT?");
 			
 			String insertChoice = input.next();
 			msConnection.insertInto(stmnt, insertChoice);
 		} else if (choice.equalsIgnoreCase("DELETE")) {
+			System.out.println(" --- DELETE ITEM ---");
+			System.out.println(" WHICH ITEM DO YOU WANT TO DELETE? (MODEL)");
 			
+			String deleteChoice = input.next();
+			msConnection.deleteExecution(stmnt, deleteChoice);
+		} else if (choice.equalsIgnoreCase("VIEW")) {
+			System.out.println(" --- VIEW ---");
+			System.out.println(" SELECT A VIEW ");
+			
+			System.out.println(" - AVAILABLE ITEMS");
+			System.out.println(" - EXPENSIVE ITEMS");
+			
+			String viewChoice = input.next();
+			msConnection.viewExecution(stmnt, viewChoice);
 		} else {
 			throw new IllegalArgumentException("UNEXPECTED VALUE: " + choice);
 		}
@@ -44,6 +60,7 @@ public class CommandController {
 		System.out.println(" 1) SELECT ");
 		System.out.println(" 2) INSERT ");
 		System.out.println(" 3) DELETE ");
-		System.out.println(" 4) EXIT ");
+		System.out.println(" 4) VIEW ");
+		System.out.println(" 5) EXIT ");
 	}
 }
