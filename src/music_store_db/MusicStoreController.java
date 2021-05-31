@@ -100,11 +100,11 @@ public class MusicStoreController {
 				}
 			}
 			
-			System.out.println("Executing query: " + stmtnt + "\n");
-	        System.out.println("Result output \n");
-	        System.out.println("---------------------------------- \n");
+//			System.out.println("Executing query: " + stmtnt + "\n");
+//	        System.out.println("Result output \n");
+//	        System.out.println("---------------------------------- \n");
 
-			System.out.println("STORE      AVAILABLE ITEM");
+// 			System.out.println("STORE      AVAILABLE ITEM");
 	        System.out.println(result);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -114,9 +114,15 @@ public class MusicStoreController {
 	public void viewExecution(String stmtnt, String choice) {
 		openConnection();
 		
-		stmtnt = "SELECT * FROM FN71937.V_AVAILABLE_ITEMS";
+		char viewChosen = Character.toUpperCase(choice.charAt(0));
+		if (categoryIsValid(viewChosen)) {
+			viewByCategory(viewChosen, choice);
+		} else {
+			System.out.println("Wrong category entered!");
+			return;
+		}
 		
-		view(stmtnt, 2);
+		
 	}
 	
 	public void selectExecution(String stmnt, String choice) {
@@ -129,15 +135,41 @@ public class MusicStoreController {
 	
 	public void deleteExecution(String stmnt, String model) {
 		openConnection();
-		char quote = '\'';
 		
 		// delete from child
 		char category = model.charAt(0);
-		deleteByCategory(category, model);
+		if (categoryIsValid(category)) {
+			deleteByCategory(category, model);
+			
+			// delete from items (parent)
+			stmnt = "SELECT * FROM FN71937.V_AVAILABLE_ITEMS";
+			delete(stmnt);
+		} else {
+			System.out.println("Wrong category entered!");
+			return;
+		}
 		
-		// delete from items (parent)
-		stmnt = "DELETE FROM FN71937.ITEMS WHERE MODEL=" + quote + model + quote;
-		delete(stmnt);
+	}
+	
+	private boolean categoryIsValid(char c) {
+		return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
+	}
+	
+	private void viewByCategory(char category, String choice) {
+		switch (category) {
+		case 'A': {
+			System.out.println("STORE      AVAILABLE ITEM");
+			view("SELECT * FROM FN71937.V_AVAILABLE_ITEMS", 2);
+			break;
+		}
+		case 'E': {
+			System.out.println("MODEL            CATEGORY         TYPE & PRICE");
+			view("SELECT * FROM FN71937.V_EXPENSIVE_ITEMS", 4);
+			break;
+		}
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + category);
+		}
 	}
 	
 	private void deleteByCategory(char category, String model) {

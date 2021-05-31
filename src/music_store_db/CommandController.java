@@ -40,10 +40,10 @@ public class CommandController {
 			msConnection.deleteExecution(stmnt, deleteChoice);
 		} else if (choice.equalsIgnoreCase("VIEW")) {
 			System.out.println(" --- VIEW ---");
-			System.out.println(" SELECT A VIEW ");
+			System.out.println(" WHAT DO YOU WANT TO VIEW?");
 			
-			System.out.println(" - AVAILABLE ITEMS");
-			System.out.println(" - EXPENSIVE ITEMS");
+			System.out.println(" AVAILABLE ITEMS");
+			System.out.println(" EXPENSIVE ITEMS");
 			
 			String viewChoice = input.next();
 			msConnection.viewExecution(stmnt, viewChoice);
