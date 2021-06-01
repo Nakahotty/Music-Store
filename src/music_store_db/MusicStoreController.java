@@ -159,6 +159,7 @@ public class MusicStoreController {
 	
 	public void deleteExecution(String stmnt, String model) {
 		openConnection();
+		char quote = '\'';
 		
 		// delete from child
 		char category = model.charAt(0);
@@ -166,7 +167,7 @@ public class MusicStoreController {
 			deleteByCategory(category, model);
 			
 			// delete from items (parent)
-			stmnt = "SELECT * FROM FN71937.V_AVAILABLE_ITEMS";
+			stmnt = "DELETE FROM FN71937.ITEMS WHERE MODEL=" + quote + model + quote;
 			delete(stmnt);
 		} else {
 			System.out.println("Wrong category entered!");
