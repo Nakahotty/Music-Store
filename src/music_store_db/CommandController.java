@@ -24,8 +24,8 @@ public class CommandController {
 			System.out.println(" --- SELECT ----");
 			System.out.println(" WHAT DO YOU WANT TO SELECT?");
 			
-			String deleteChoice = input.next();
-			msConnection.selectExecution(stmnt, deleteChoice);
+			String selectChoice = input.next();
+			msConnection.selectExecution(stmnt, selectChoice);
 		} else if (choice.equalsIgnoreCase("INSERT")) {
 			System.out.println(" --- INSERT YOUR DATA --- ");
 			System.out.println(" WHAT DO YOU WANT TO INSERT?");

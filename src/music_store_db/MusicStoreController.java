@@ -55,9 +55,6 @@ public class MusicStoreController {
 						result += ", ";
 				}
 			}
-			
-			System.out.println("Executing query: " + stmnt + "\n");
-	        System.out.println("Result output \n");
 	        System.out.println("---------------------------------- \n");
 	        System.out.println(result);
 		} catch (SQLException e) {
@@ -127,10 +124,37 @@ public class MusicStoreController {
 	
 	public void selectExecution(String stmnt, String choice) {
 		openConnection();
-
-		// 
+		char quote = '\'';
+		choice.toUpperCase();
 		
-		select(stmnt, 1);
+		// chosen fixed selections
+		if(choice.equalsIgnoreCase("CLIENTS")) {
+			System.out.println("\nSHOWING ALL CLIENTS...");
+			stmnt = "SELECT * FROM FN71937.CLIENTS";
+			select(stmnt, 4);
+		} else if (choice.equalsIgnoreCase("STAFF")) {
+			System.out.println("\nSHOWING STAFF IN SOFIA...");
+			stmnt = "SELECT * FROM FN71937.STAFF WHERE REGION LIKE " + quote + "Sofia%" + quote;
+			select(stmnt, 5);
+		} else if (choice.equalsIgnoreCase("STORES")) {
+			System.out.println("\nSHOWING ALL STORES...");
+			stmnt = "SELECT * FROM FN71937.STORES";
+			select(stmnt, 2);
+		} else if (choice.equalsIgnoreCase("BUYS")) {
+			System.out.println("\nSHOWING WHAT HAS BEEN BOUGHT...");
+			stmnt = "SELECT * FROM FN71937.BUYS";
+			select(stmnt, 3);
+		} else if (choice.equalsIgnoreCase("GOES TO")) {
+			System.out.println("\nSHOWING WHICH STORE THE CLIENTS VISITED...");
+			stmnt = "SELECT * FROM FN71937.GOESTO";
+			select(stmnt, 2);
+		} else if(choice.equalsIgnoreCase("LEAVE")) {
+			return;
+		} else {
+			System.out.println("WRONG TABLE NAME!");
+			return;
+		}
+		
 	}
 	
 	public void deleteExecution(String stmnt, String model) {
