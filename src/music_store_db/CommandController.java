@@ -10,7 +10,7 @@ public class CommandController {
 	}
 	
 	public void run() {
-		MusicStoreController msConnection = new MusicStoreController();
+		MusicStoreController msController = new MusicStoreController();
 		String stmnt = new String();
 
 		intro();
@@ -25,19 +25,19 @@ public class CommandController {
 			System.out.println(" WHAT DO YOU WANT TO SELECT?");
 			
 			String selectChoice = input.next();
-			msConnection.selectExecution(stmnt, selectChoice);
+			msController.selectExecution(stmnt, selectChoice);
 		} else if (choice.equalsIgnoreCase("INSERT")) {
 			System.out.println(" --- INSERT YOUR DATA --- ");
 			System.out.println(" WHAT DO YOU WANT TO INSERT?");
 			
 			String insertChoice = input.next();
-			msConnection.insertInto(stmnt, insertChoice);
+			msController.insertInto(stmnt, insertChoice);
 		} else if (choice.equalsIgnoreCase("DELETE")) {
 			System.out.println(" --- DELETE ITEM ---");
 			System.out.println(" WHICH ITEM DO YOU WANT TO DELETE? (MODEL)");
 			
 			String deleteChoice = input.next();
-			msConnection.deleteExecution(stmnt, deleteChoice);
+			msController.deleteExecution(stmnt, deleteChoice);
 		} else if (choice.equalsIgnoreCase("VIEW")) {
 			System.out.println(" --- VIEW ---");
 			System.out.println(" WHAT DO YOU WANT TO VIEW?");
@@ -46,7 +46,7 @@ public class CommandController {
 			System.out.println(" EXPENSIVE ITEMS");
 			
 			String viewChoice = input.next();
-			msConnection.viewExecution(stmnt, viewChoice);
+			msController.viewExecution(stmnt, viewChoice);
 		} else {
 			throw new IllegalArgumentException("UNEXPECTED VALUE: " + choice);
 		}

@@ -144,7 +144,7 @@ public class MusicStoreController {
 			System.out.println("\nSHOWING WHAT HAS BEEN BOUGHT...");
 			stmnt = "SELECT * FROM FN71937.BUYS";
 			select(stmnt, 3);
-		} else if (choice.equalsIgnoreCase("GOES TO")) {
+		} else if (choice.equalsIgnoreCase("GOESTO")) {
 			System.out.println("\nSHOWING WHICH STORE THE CLIENTS VISITED...");
 			stmnt = "SELECT * FROM FN71937.GOESTO";
 			select(stmnt, 2);
